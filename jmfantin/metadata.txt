@@ -1,0 +1,15 @@
+//AT ANY PAGE FILE
+
+// Static Metadata
+export const metadata = {
+  title: 'Home',
+  //<head>
+    //<title>Home</title>
+  //</head>
+};
+
+// Dynamic Metadata
+export async function generateMetadata({params, searchParams}){
+  const product = await getProduct(params.id);
+  return {title: product.title}
+}

@@ -1,0 +1,15 @@
+// AT ANY PAGE
+// app/posts -> GET(posts) : list<post>
+// app/post:id -> GET(post:id) : post
+
+1. Server Side Rendering (SSR)
+- by using cache:'no-store' option (refetches every time)
+- best when the artifact may change frequently
+
+2. Static Site Generation (SSG)
+- by not specifying any cache option (it's Next's default)
+- best when the artifact may not change, like a blog post or institutional information
+
+3. Incremental Static Generation (ISG)
+- by using next:revalidade:10 option (mixture of 1 and 2)
+- data will be cached, but only in a specific time frame
