@@ -57,3 +57,7 @@ export async function generateMetadata({params, searchParams}){
   const product = await getProduct(params.id);
   return {title: product.title}
 }
+
+>>> API GIMMICKS
+
+Make sure the check out the NextAuth documentation.
