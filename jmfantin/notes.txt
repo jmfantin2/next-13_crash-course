@@ -1,0 +1,59 @@
+USE >>> JUMPERS 
+
+>>> API ENDPOINTS
+
+// app/api/users/route.js
+
+// API BACKEND ROUTE
+// http://localhost:3000/api/users
+// /users
+
+export async function GET(request){ 
+  
+  // Handle GET request for /api/users
+  // Retrieve users from the database or any data source
+  const users = [
+    {id: 1, name: 'John'}
+    {id: 2, name: 'Jane'}
+    {id: 3, name: 'Jack'}
+  ]
+
+  // Send the users as a response
+  return new Response(JSON.stringify(users))
+}
+
+>>> FETCHING STYLES
+
+// AT ANY PAGE
+// app/posts -> GET(posts) : list<post>
+// app/post:id -> GET(post:id) : post
+
+1. Server Side Rendering (SSR)
+- by using cache:'no-store' option (refetches every time)
+- best when the artifact may change frequently
+
+2. Static Site Generation (SSG)
+- by not specifying any cache option (it's Next's default)
+- best when the artifact may not change, like a blog post or institutional information
+
+3. Incremental Static Generation (ISG)
+- by using next:revalidade:10 option (mixture of 1 and 2)
+- data will be cached, but only in a specific time frame
+
+>>> METADATA
+
+//AT ANY PAGE FILE
+
+// Static Metadata
+export const metadata = {
+  title: 'Home',
+  //<head>
+    //<title>Home</title>
+  //</head>
+};
+
+// Dynamic Metadata
+export async function generateMetadata({params, searchParams}){
+  const product = await getProduct(params.id);
+  return {title: product.title}
+}
