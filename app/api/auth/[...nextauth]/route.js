@@ -11,34 +11,37 @@ const handler = NextAuth({
       clientSecret: process.env.GOOGLE_SECRET,
     }),
   ],
-  async session({ session }) {
-    const sessionUser = await User.findOne({
-      email: session.user.email,
-    });
-    session.user.id = sessionUser._id.toString();
-    //this basically updates it & makes sure they're currently online
-    return session;
-  },
-  async signIn({ profile }) {
-    try {
-      //serverless -> lambda (opens only when called) -> dynamodb
-      await connectToDB();
-      // check if a user already exists (and that needs a Model)
-      const userExists = await User.findOne({ email: profile.email });
-      // if not, create a new user and save it
-      if (!userExists) {
-        await User.create({
-          email: profile.email,
-          username: profile.name.replace(' ', '').toLowerCase(),
-          image: profile.picture,
-        });
-      }
+  callbacks: {
+    async session({ session }) {
+      const sessionUser = await User.findOne({
+        email: session.user.email,
+      });
+      session.user.id = sessionUser._id.toString();
+      //this basically updates it & makes sure they're currently online
+      return session;
+    },
+    async signIn({ profile }) {
+      try {
+        //serverless -> lambda (opens only when called) -> dynamodb
+        await connectToDB();
+        // check if a user already exists (and that needs a Model)
+        const userExists = await User.findOne({ email: profile.email });
+        // if not, create a new user and save it
+        if (!userExists) {
+          await User.create({
+            email: profile.email,
+            //special characters could break the insertion and must be treated
+            username: profile.name.replace(/[^a-zA-Z]+/g, '').toLowerCase(),
+            image: profile.picture,
+          });
+        }
 
-      return true;
-    } catch (error) {
-      console.log(error);
-      return false;
-    }
+        return true;
+      } catch (error) {
+        console.log(error);
+        return false;
+      }
+    },
   },
 });
 
