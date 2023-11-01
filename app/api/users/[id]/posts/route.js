@@ -11,6 +11,7 @@ export const GET = async (request, { params }) => {
       //1: structure -> users/[id]/posts
       //2: params -> the id must come from somewhere
       //3: usage -> insert the param as a find option, matching one of the attributes
+      //!! not the same as findById, because it's like a foreign key
       creator: params.id,
     }).populate('creator');
     return new Response(JSON.stringify(prompts), {

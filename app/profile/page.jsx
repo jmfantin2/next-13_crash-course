@@ -8,6 +8,7 @@ import { Profile } from '@/components/Profile';
 
 export default function ProfilePage() {
   const { data: session } = useSession();
+  const router = useRouter();
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -21,8 +22,8 @@ export default function ProfilePage() {
     }
   }, []);
 
-  const handleEdit = () => {
-    console.log('edit tbd');
+  const handleEdit = (post) => {
+    router.push(`/update-prompt?id=${post._id}`);
   };
   const handleDelete = async () => {
     console.log('delete tbd');
