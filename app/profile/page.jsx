@@ -16,10 +16,8 @@ export default function MyProfile() {
     const fetchPosts = async () => {
       const response = await fetch(`/api/users/${session?.user.id}/posts`);
       const data = await response.json();
-
       setMyPosts(data);
     };
-
     if (session?.user.id) fetchPosts();
   }, [session?.user.id]);
 
